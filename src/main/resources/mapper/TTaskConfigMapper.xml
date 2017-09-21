@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.astral.mapper.TTaskConfigMapper">
+  <resultMap id="BaseResultMap" type="com.astral.model.TTaskConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+    <result column="task_type_id" jdbcType="INTEGER" property="taskTypeId" />
+    <result column="cron" jdbcType="VARCHAR" property="cron" />
+    <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+    <result column="charge_id" jdbcType="INTEGER" property="chargeId" />
+    <result column="alarm_address" jdbcType="VARCHAR" property="alarmAddress" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="task_deploy" jdbcType="VARCHAR" property="taskDeploy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="deleted" jdbcType="INTEGER" property="deleted" />
+    <result column="dt" jdbcType="DATE" property="dt" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.astral.model.TTaskConfig">
+    <result column="task_context" jdbcType="VARCHAR" property="taskContext" />
+    <result column="param" jdbcType="VARCHAR" property="param" />
+    <result column="task_describe" jdbcType="VARCHAR" property="taskDescribe" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, task_name, task_type_id, cron, owner_id, charge_id, alarm_address, status, task_deploy, 
+    create_time, modify_time, deleted, dt
+  </sql>
+  <sql id="Blob_Column_List">
+    task_context, param, task_describe
+  </sql>
+  <sql id="Base_Where">
+    <if test="taskName != null">
+        and task_name = #{taskName,jdbcType=VARCHAR}
+    </if>
+    <if test="taskTypeId != null">
+        and task_type_id = #{taskTypeId,jdbcType=INTEGER}
+    </if>
+    <if test="cron != null">
+        and cron = #{cron,jdbcType=VARCHAR}
+    </if>
+    <if test="ownerId != null">
+        and owner_id = #{ownerId,jdbcType=INTEGER}
+    </if>
+    <if test="chargeId != null">
+        and charge_id = #{chargeId,jdbcType=INTEGER}
+    </if>
+    <if test="alarmAddress != null">
+        and alarm_address = #{alarmAddress,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+        and status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="taskDeploy != null">
+        and task_deploy = #{taskDeploy,jdbcType=VARCHAR}
+    </if>
+    <if test="createTime != null">
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="modifyTime != null">
+        and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    </if>
+        and deleted = 0
+    <if test="dt != null">
+        and dt = #{dt,jdbcType=DATE}
+    </if>
+  </sql>
+  <sql id="Extra_Where">
+    <if test="taskName != null">
+        and task_name = #{taskName,jdbcType=VARCHAR}
+    </if>
+    <if test="taskNameLike != null">
+        and task_name like CONCAT('%',#{taskNameLike},'%')
+    </if>
+    <if test="taskTypeId != null">
+        and task_type_id = #{taskTypeId,jdbcType=INTEGER}
+    </if>
+    <if test="cron != null">
+        and cron = #{cron,jdbcType=VARCHAR}
+    </if>
+    <if test="cronLike != null">
+        and cron like CONCAT('%',#{cronLike},'%')
+    </if>
+    <if test="ownerId != null">
+        and owner_id = #{ownerId,jdbcType=INTEGER}
+    </if>
+    <if test="chargeId != null">
+        and charge_id = #{chargeId,jdbcType=INTEGER}
+    </if>
+    <if test="alarmAddress != null">
+        and alarm_address = #{alarmAddress,jdbcType=VARCHAR}
+    </if>
+    <if test="alarmAddressLike != null">
+        and alarm_address like CONCAT('%',#{alarmAddressLike},'%')
+    </if>
+    <if test="status != null">
+        and status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="taskDeploy != null">
+        and task_deploy = #{taskDeploy,jdbcType=VARCHAR}
+    </if>
+    <if test="taskDeployLike != null">
+        and task_deploy like CONCAT('%',#{taskDeployLike},'%')
+    </if>
+    <if test="createTime != null">
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="createTimeBegin != null and createTimeEnd != null">
+        and create_time BETWEEN #{createTimeBegin} AND #{createTimeEnd}
+    </if>
+    <if test="modifyTime != null">
+        and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="modifyTimeBegin != null and modifyTimeEnd != null">
+        and modify_time BETWEEN #{modifyTimeBegin} AND #{modifyTimeEnd}
+    </if>
+        and deleted = 0
+    <if test="dt != null">
+        and dt = #{dt,jdbcType=DATE}
+    </if>
+    <if test="dtBegin != null and dtEnd != null">
+        and dt BETWEEN #{dtBegin} AND #{dtEnd}
+    </if>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_task_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="select" parameterType="com.astral.model.TTaskConfig" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_task_config
+    <trim prefix="WHERE" prefixOverrides="AND |OR">
+      <include refid="Base_Where" />
+    </trim>
+  </select>
+  <select id="selectByCondition" parameterType="map" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_task_config
+    <trim prefix="WHERE" prefixOverrides="AND |OR">
+      <include refid="Extra_Where" />
+    </trim>
+  </select>
+  <insert id="insert" parameterType="com.astral.model.TTaskConfig">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_task_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskName != null">
+        task_name,
+      </if>
+      <if test="taskTypeId != null">
+        task_type_id,
+      </if>
+      <if test="cron != null">
+        cron,
+      </if>
+      <if test="ownerId != null">
+        owner_id,
+      </if>
+      <if test="chargeId != null">
+        charge_id,
+      </if>
+      <if test="alarmAddress != null">
+        alarm_address,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="taskDeploy != null">
+        task_deploy,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="dt != null">
+        dt,
+      </if>
+      <if test="taskContext != null">
+        task_context,
+      </if>
+      <if test="param != null">
+        param,
+      </if>
+      <if test="taskDescribe != null">
+        task_describe,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskName != null">
+        #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskTypeId != null">
+        #{taskTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="cron != null">
+        #{cron,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null">
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="chargeId != null">
+        #{chargeId,jdbcType=INTEGER},
+      </if>
+      <if test="alarmAddress != null">
+        #{alarmAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="taskDeploy != null">
+        #{taskDeploy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="dt != null">
+        #{dt,jdbcType=DATE},
+      </if>
+      <if test="taskContext != null">
+        #{taskContext,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="param != null">
+        #{param,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="taskDescribe != null">
+        #{taskDescribe,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_task_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="delete" parameterType="com.astral.model.TTaskConfig">
+    delete from t_task_config
+    <trim prefix="WHERE" prefixOverrides="AND |OR">
+      <include refid="Base_Where" />
+    </trim>
+  </delete>
+  <update id="update" parameterType="com.astral.model.TTaskConfig">
+    update t_task_config
+    <set>
+      <if test="taskName != null">
+        task_name = #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskTypeId != null">
+        task_type_id = #{taskTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="cron != null">
+        cron = #{cron,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null">
+        owner_id = #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="chargeId != null">
+        charge_id = #{chargeId,jdbcType=INTEGER},
+      </if>
+      <if test="alarmAddress != null">
+        alarm_address = #{alarmAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="taskDeploy != null">
+        task_deploy = #{taskDeploy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="dt != null">
+        dt = #{dt,jdbcType=DATE},
+      </if>
+      <if test="taskContext != null">
+        task_context = #{taskContext,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="param != null">
+        param = #{param,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="taskDescribe != null">
+        task_describe = #{taskDescribe,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
